@@ -365,7 +365,7 @@ public class Video implements Serializable, DeepObject {
      * @return language
      **/
     @javax.annotation.Nullable
-    @ApiModelProperty(value = "Returns the language of a video in [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag) format. You can set the language during video creation via the API, otherwise it is detected automatically.")
+    @ApiModelProperty(example = "en", value = "Returns the language of a video in [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag) format. You can set the language during video creation via the API, otherwise it is detected automatically.")
 
     public String getLanguage() {
         return language;
@@ -388,7 +388,7 @@ public class Video implements Serializable, DeepObject {
      * @return languageOrigin
      **/
     @javax.annotation.Nullable
-    @ApiModelProperty(value = "Returns the origin of the last update on the video's `language` attribute.  - `api` means that the last update was requested from the API. - `auto` means that the last update was done automatically by the API.")
+    @ApiModelProperty(example = "api", value = "Returns the origin of the last update on the video's `language` attribute.  - `api` means that the last update was requested from the API. - `auto` means that the last update was done automatically by the API.")
 
     public LanguageOriginEnum getLanguageOrigin() {
         return languageOrigin;

@@ -101,7 +101,8 @@ public class AnalyticsApi {
     }
 
     private okhttp3.Call getAggregatedMetricsCall(String metric, String aggregation, OffsetDateTime from,
-            OffsetDateTime to, FilterBy2 filterBy, final ApiCallback _callback) throws ApiException {
+            OffsetDateTime to, Boolean unique, String viewDuration, FilterBy2 filterBy, final ApiCallback _callback)
+            throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -121,6 +122,14 @@ public class AnalyticsApi {
 
         if (to != null) {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("to", to));
+        }
+
+        if (unique != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("unique", unique));
+        }
+
+        if (viewDuration != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("viewDuration", viewDuration));
         }
 
         if (filterBy != null) {
@@ -145,7 +154,8 @@ public class AnalyticsApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call getAggregatedMetricsValidateBeforeCall(String metric, String aggregation, OffsetDateTime from,
-            OffsetDateTime to, FilterBy2 filterBy, final ApiCallback _callback) throws ApiException {
+            OffsetDateTime to, Boolean unique, String viewDuration, FilterBy2 filterBy, final ApiCallback _callback)
+            throws ApiException {
 
         // verify the required parameter 'metric' is set
         if (metric == null) {
@@ -157,24 +167,26 @@ public class AnalyticsApi {
             throw new ApiException("Missing the required parameter 'aggregation' when calling getAggregatedMetrics");
         }
 
-        okhttp3.Call localVarCall = getAggregatedMetricsCall(metric, aggregation, from, to, filterBy, _callback);
+        okhttp3.Call localVarCall = getAggregatedMetricsCall(metric, aggregation, from, to, unique, viewDuration,
+                filterBy, _callback);
         return localVarCall;
     }
 
     private ApiResponse<AnalyticsAggregatedMetricsResponse> getAggregatedMetricsWithHttpInfo(String metric,
-            String aggregation, OffsetDateTime from, OffsetDateTime to, FilterBy2 filterBy) throws ApiException {
-        okhttp3.Call localVarCall = getAggregatedMetricsValidateBeforeCall(metric, aggregation, from, to, filterBy,
-                null);
+            String aggregation, OffsetDateTime from, OffsetDateTime to, Boolean unique, String viewDuration,
+            FilterBy2 filterBy) throws ApiException {
+        okhttp3.Call localVarCall = getAggregatedMetricsValidateBeforeCall(metric, aggregation, from, to, unique,
+                viewDuration, filterBy, null);
         Type localVarReturnType = new TypeToken<AnalyticsAggregatedMetricsResponse>() {
         }.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     private okhttp3.Call getAggregatedMetricsAsync(String metric, String aggregation, OffsetDateTime from,
-            OffsetDateTime to, FilterBy2 filterBy, final ApiCallback<AnalyticsAggregatedMetricsResponse> _callback)
-            throws ApiException {
-        okhttp3.Call localVarCall = getAggregatedMetricsValidateBeforeCall(metric, aggregation, from, to, filterBy,
-                _callback);
+            OffsetDateTime to, Boolean unique, String viewDuration, FilterBy2 filterBy,
+            final ApiCallback<AnalyticsAggregatedMetricsResponse> _callback) throws ApiException {
+        okhttp3.Call localVarCall = getAggregatedMetricsValidateBeforeCall(metric, aggregation, from, to, unique,
+                viewDuration, filterBy, _callback);
         Type localVarReturnType = new TypeToken<AnalyticsAggregatedMetricsResponse>() {
         }.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
@@ -186,6 +198,8 @@ public class AnalyticsApi {
         private final String aggregation;
         private OffsetDateTime from;
         private OffsetDateTime to;
+        private Boolean unique;
+        private String viewDuration;
         private FilterBy2 filterBy;
 
         private APIgetAggregatedMetricsRequest(String metric, String aggregation) {
@@ -228,6 +242,41 @@ public class AnalyticsApi {
         }
 
         /**
+         * Set unique
+         * 
+         * @param unique
+         *            Use this query parameter to control how viewer data is counted: - &#x60;true&#x60; means that a
+         *            single user watching multiple times counts as 1 unique viewer - &#x60;false&#x60; means that all
+         *            views count, even if from the same user. The API accepts this parameter only when you use the
+         *            &#x60;ccv&#x60; or &#x60;view&#x60; metric. Viewers are unique for 1 day. The API determines
+         *            uniqueness based on a viewer&#39;s &#x60;user-agent&#x60; and IP address. This means that the API
+         *            can filter viewers using multiple tabs to watch the same video multiple times, but cannot filter
+         *            for viewers who use multiple browsers to watch the same content multiple times. (optional)
+         * 
+         * @return APIgetAggregatedMetricsRequest
+         */
+        public APIgetAggregatedMetricsRequest unique(Boolean unique) {
+            this.unique = unique;
+            return this;
+        }
+
+        /**
+         * Set viewDuration
+         * 
+         * @param viewDuration
+         *            Use this query parameter to define how many seconds a view has to last to be counted in analytics
+         *            data. - You can only use this parameter with the &#x60;view&#x60; metric. - The accepted values
+         *            are &#x60;3s&#x60;, &#x60;5s&#x60;, &#x60;10s&#x60;, and &#x60;30s&#x60;. - If you do not set this
+         *            parameter, the API defaults to &#x60;5s&#x60;. (optional)
+         * 
+         * @return APIgetAggregatedMetricsRequest
+         */
+        public APIgetAggregatedMetricsRequest viewDuration(String viewDuration) {
+            this.viewDuration = viewDuration;
+            return this;
+        }
+
+        /**
          * Set filterBy
          * 
          * @param filterBy
@@ -255,7 +304,9 @@ public class AnalyticsApi {
          *            based on the browser used by the viewers. Response values can include &#x60;chrome&#x60;,
          *            &#x60;firefox&#x60;, &#x60;edge&#x60;, &#x60;opera&#x60;. - &#x60;tag&#x60;: Returns analytics for
          *            videos using this tag. This filter only accepts a single value and is case sensitive. Read more
-         *            about tagging your videos [here](https://docs.api.video/vod/tags-metadata). (optional)
+         *            about tagging your videos [here](https://docs.api.video/vod/tags-metadata). -
+         *            &#x60;referrer&#x60;: Filters data based on the URL where the view is originating from. Accepts an
+         *            empty string as a value to filter view events where no referrer is available. (optional)
          * 
          * @return APIgetAggregatedMetricsRequest
          */
@@ -325,7 +376,7 @@ public class AnalyticsApi {
          *                        </table>
          */
         public okhttp3.Call buildCall(final ApiCallback _callback) throws ApiException {
-            return getAggregatedMetricsCall(metric, aggregation, from, to, filterBy, _callback);
+            return getAggregatedMetricsCall(metric, aggregation, from, to, unique, viewDuration, filterBy, _callback);
         }
 
         /**
@@ -387,7 +438,7 @@ public class AnalyticsApi {
          */
         public AnalyticsAggregatedMetricsResponse execute() throws ApiException {
             ApiResponse<AnalyticsAggregatedMetricsResponse> localVarResp = getAggregatedMetricsWithHttpInfo(metric,
-                    aggregation, from, to, filterBy);
+                    aggregation, from, to, unique, viewDuration, filterBy);
             return localVarResp.getData();
         }
 
@@ -395,6 +446,8 @@ public class AnalyticsApi {
             APIgetAggregatedMetricsRequest copy = new APIgetAggregatedMetricsRequest(metric, aggregation);
             copy.from(from);
             copy.to(to);
+            copy.unique(unique);
+            copy.viewDuration(viewDuration);
             copy.filterBy(filterBy);
             return copy;
         }
@@ -457,7 +510,7 @@ public class AnalyticsApi {
          *                        </table>
          */
         public ApiResponse<AnalyticsAggregatedMetricsResponse> executeWithHttpInfo() throws ApiException {
-            return getAggregatedMetricsWithHttpInfo(metric, aggregation, from, to, filterBy);
+            return getAggregatedMetricsWithHttpInfo(metric, aggregation, from, to, unique, viewDuration, filterBy);
         }
 
         /**
@@ -522,7 +575,7 @@ public class AnalyticsApi {
          */
         public okhttp3.Call executeAsync(final ApiCallback<AnalyticsAggregatedMetricsResponse> _callback)
                 throws ApiException {
-            return getAggregatedMetricsAsync(metric, aggregation, from, to, filterBy, _callback);
+            return getAggregatedMetricsAsync(metric, aggregation, from, to, unique, viewDuration, filterBy, _callback);
         }
 
     }
@@ -545,7 +598,9 @@ public class AnalyticsApi {
      *            your content was loading for until the first video frame is displayed. You can use the aggregations
      *            &#x60;average&#x60; and &#x60;sum&#x60; with this metric. - &#x60;watch-time&#x60; is the cumulative
      *            time in seconds that the user has spent watching your content. You can use the aggregations
-     *            &#x60;average&#x60; and &#x60;sum&#x60; with this metric. (required)
+     *            &#x60;average&#x60; and &#x60;sum&#x60; with this metric. - &#x60;ccv&#x60;: is the number of
+     *            concurrent viewers, or users watching at the same time. - &#x60;view&#x60;: the total number of
+     *            viewers until this point in time. (required)
      * @param aggregation
      *            Use this path parameter to define a way of collecting data for the metric that you want analytics for.
      *            - &#x60;count&#x60; returns the overall number of events for the &#x60;play&#x60; metric. -
@@ -553,7 +608,10 @@ public class AnalyticsApi {
      *            by its impressions. This aggregation can be used only with the &#x60;play&#x60; metric. -
      *            &#x60;total&#x60; calculates the total number of events for the &#x60;play&#x60; metric. -
      *            &#x60;average&#x60; calculates an average value for the selected metric. - &#x60;sum&#x60; adds up the
-     *            total value of the select metric. (required)
+     *            total value of the select metric. - &#x60;peak&#x60; shows the highest value of the &#x60;ccv&#x60;
+     *            metric in the timeframe of your request. You can use this aggregation only with the &#x60;ccv&#x60;
+     *            metric. - &#x60;live&#x60; shows the highest value of the &#x60;ccv&#x60; metric from the last 20
+     *            seconds. You can use this aggregation only with the &#x60;ccv&#x60; metric. (required)
      * 
      * @return APIgetAggregatedMetricsRequest
      * 
@@ -611,8 +669,8 @@ public class AnalyticsApi {
     }
 
     private okhttp3.Call getMetricsBreakdownCall(String metric, String breakdown, OffsetDateTime from,
-            OffsetDateTime to, String sortBy, String sortOrder, FilterBy2 filterBy, Integer currentPage,
-            Integer pageSize, final ApiCallback _callback) throws ApiException {
+            OffsetDateTime to, String sortBy, String sortOrder, Boolean unique, String viewDuration, FilterBy2 filterBy,
+            Integer currentPage, Integer pageSize, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -640,6 +698,14 @@ public class AnalyticsApi {
 
         if (sortOrder != null) {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("sortOrder", sortOrder));
+        }
+
+        if (unique != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("unique", unique));
+        }
+
+        if (viewDuration != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("viewDuration", viewDuration));
         }
 
         if (filterBy != null) {
@@ -672,8 +738,8 @@ public class AnalyticsApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call getMetricsBreakdownValidateBeforeCall(String metric, String breakdown, OffsetDateTime from,
-            OffsetDateTime to, String sortBy, String sortOrder, FilterBy2 filterBy, Integer currentPage,
-            Integer pageSize, final ApiCallback _callback) throws ApiException {
+            OffsetDateTime to, String sortBy, String sortOrder, Boolean unique, String viewDuration, FilterBy2 filterBy,
+            Integer currentPage, Integer pageSize, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'metric' is set
         if (metric == null) {
@@ -685,26 +751,27 @@ public class AnalyticsApi {
             throw new ApiException("Missing the required parameter 'breakdown' when calling getMetricsBreakdown");
         }
 
-        okhttp3.Call localVarCall = getMetricsBreakdownCall(metric, breakdown, from, to, sortBy, sortOrder, filterBy,
-                currentPage, pageSize, _callback);
+        okhttp3.Call localVarCall = getMetricsBreakdownCall(metric, breakdown, from, to, sortBy, sortOrder, unique,
+                viewDuration, filterBy, currentPage, pageSize, _callback);
         return localVarCall;
     }
 
     private ApiResponse<AnalyticsMetricsBreakdownResponse> getMetricsBreakdownWithHttpInfo(String metric,
-            String breakdown, OffsetDateTime from, OffsetDateTime to, String sortBy, String sortOrder,
-            FilterBy2 filterBy, Integer currentPage, Integer pageSize) throws ApiException {
+            String breakdown, OffsetDateTime from, OffsetDateTime to, String sortBy, String sortOrder, Boolean unique,
+            String viewDuration, FilterBy2 filterBy, Integer currentPage, Integer pageSize) throws ApiException {
         okhttp3.Call localVarCall = getMetricsBreakdownValidateBeforeCall(metric, breakdown, from, to, sortBy,
-                sortOrder, filterBy, currentPage, pageSize, null);
+                sortOrder, unique, viewDuration, filterBy, currentPage, pageSize, null);
         Type localVarReturnType = new TypeToken<AnalyticsMetricsBreakdownResponse>() {
         }.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     private okhttp3.Call getMetricsBreakdownAsync(String metric, String breakdown, OffsetDateTime from,
-            OffsetDateTime to, String sortBy, String sortOrder, FilterBy2 filterBy, Integer currentPage,
-            Integer pageSize, final ApiCallback<AnalyticsMetricsBreakdownResponse> _callback) throws ApiException {
+            OffsetDateTime to, String sortBy, String sortOrder, Boolean unique, String viewDuration, FilterBy2 filterBy,
+            Integer currentPage, Integer pageSize, final ApiCallback<AnalyticsMetricsBreakdownResponse> _callback)
+            throws ApiException {
         okhttp3.Call localVarCall = getMetricsBreakdownValidateBeforeCall(metric, breakdown, from, to, sortBy,
-                sortOrder, filterBy, currentPage, pageSize, _callback);
+                sortOrder, unique, viewDuration, filterBy, currentPage, pageSize, _callback);
         Type localVarReturnType = new TypeToken<AnalyticsMetricsBreakdownResponse>() {
         }.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
@@ -718,6 +785,8 @@ public class AnalyticsApi {
         private OffsetDateTime to;
         private String sortBy;
         private String sortOrder;
+        private Boolean unique;
+        private String viewDuration;
         private FilterBy2 filterBy;
         private Integer currentPage;
         private Integer pageSize;
@@ -792,6 +861,42 @@ public class AnalyticsApi {
         }
 
         /**
+         * Set unique
+         * 
+         * @param unique
+         *            Use this query parameter to control how viewer data is counted: - &#x60;true&#x60; means that a
+         *            single user watching multiple times counts as 1 unique viewer - &#x60;false&#x60; means that all
+         *            views count, even if from the same user. The API accepts this parameter only when you use the
+         *            &#x60;ccv-peak&#x60;, &#x60;ccv-average&#x60;, or &#x60;view&#x60; metric. Viewers are unique for
+         *            1 day. The API determines uniqueness based on a viewer&#39;s &#x60;user-agent&#x60; and IP
+         *            address. This means that the API can filter viewers using multiple tabs to watch the same video
+         *            multiple times, but cannot filter for viewers who use multiple browsers to watch the same content
+         *            multiple times. (optional)
+         * 
+         * @return APIgetMetricsBreakdownRequest
+         */
+        public APIgetMetricsBreakdownRequest unique(Boolean unique) {
+            this.unique = unique;
+            return this;
+        }
+
+        /**
+         * Set viewDuration
+         * 
+         * @param viewDuration
+         *            Use this query parameter to define how many seconds a view has to last to be counted in analytics
+         *            data. - You can only use this parameter together with the &#x60;view&#x60; metric. - The accepted
+         *            values are &#x60;3s&#x60;, &#x60;5s&#x60;, &#x60;10s&#x60;, and &#x60;30s&#x60;. - If you do not
+         *            set this parameter, the API defaults to &#x60;5s&#x60;. (optional)
+         * 
+         * @return APIgetMetricsBreakdownRequest
+         */
+        public APIgetMetricsBreakdownRequest viewDuration(String viewDuration) {
+            this.viewDuration = viewDuration;
+            return this;
+        }
+
+        /**
          * Set filterBy
          * 
          * @param filterBy
@@ -819,7 +924,9 @@ public class AnalyticsApi {
          *            based on the browser used by the viewers. Response values can include &#x60;chrome&#x60;,
          *            &#x60;firefox&#x60;, &#x60;edge&#x60;, &#x60;opera&#x60;. - &#x60;tag&#x60;: Returns analytics for
          *            videos using this tag. This filter only accepts a single value and is case sensitive. Read more
-         *            about tagging your videos [here](https://docs.api.video/vod/tags-metadata). (optional)
+         *            about tagging your videos [here](https://docs.api.video/vod/tags-metadata). -
+         *            &#x60;referrer&#x60;: Filters data based on the URL where the view is originating from. Accepts an
+         *            empty string as a value to filter view events where no referrer is available. (optional)
          * 
          * @return APIgetMetricsBreakdownRequest
          */
@@ -915,8 +1022,8 @@ public class AnalyticsApi {
          *                        </table>
          */
         public okhttp3.Call buildCall(final ApiCallback _callback) throws ApiException {
-            return getMetricsBreakdownCall(metric, breakdown, from, to, sortBy, sortOrder, filterBy, currentPage,
-                    pageSize, _callback);
+            return getMetricsBreakdownCall(metric, breakdown, from, to, sortBy, sortOrder, unique, viewDuration,
+                    filterBy, currentPage, pageSize, _callback);
         }
 
         /**
@@ -978,7 +1085,7 @@ public class AnalyticsApi {
          */
         public Page<AnalyticsMetricsBreakdownResponseData> execute() throws ApiException {
             ApiResponse<AnalyticsMetricsBreakdownResponse> localVarResp = getMetricsBreakdownWithHttpInfo(metric,
-                    breakdown, from, to, sortBy, sortOrder, filterBy, currentPage, pageSize);
+                    breakdown, from, to, sortBy, sortOrder, unique, viewDuration, filterBy, currentPage, pageSize);
             return new Page<>(localVarResp.getData().getData(), localVarResp.getData().getPagination(), () -> {
                 try {
                     return copy().currentPage((currentPage == null ? 1 : currentPage) + 1).execute();
@@ -994,6 +1101,8 @@ public class AnalyticsApi {
             copy.to(to);
             copy.sortBy(sortBy);
             copy.sortOrder(sortOrder);
+            copy.unique(unique);
+            copy.viewDuration(viewDuration);
             copy.filterBy(filterBy);
             copy.currentPage(currentPage);
             copy.pageSize(pageSize);
@@ -1058,8 +1167,8 @@ public class AnalyticsApi {
          *                        </table>
          */
         public ApiResponse<AnalyticsMetricsBreakdownResponse> executeWithHttpInfo() throws ApiException {
-            return getMetricsBreakdownWithHttpInfo(metric, breakdown, from, to, sortBy, sortOrder, filterBy,
-                    currentPage, pageSize);
+            return getMetricsBreakdownWithHttpInfo(metric, breakdown, from, to, sortBy, sortOrder, unique, viewDuration,
+                    filterBy, currentPage, pageSize);
         }
 
         /**
@@ -1153,8 +1262,8 @@ public class AnalyticsApi {
                     _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
-            return getMetricsBreakdownAsync(metric, breakdown, from, to, sortBy, sortOrder, filterBy, currentPage,
-                    pageSize, apiCallback);
+            return getMetricsBreakdownAsync(metric, breakdown, from, to, sortBy, sortOrder, unique, viewDuration,
+                    filterBy, currentPage, pageSize, apiCallback);
         }
     }
 
@@ -1172,7 +1281,9 @@ public class AnalyticsApi {
      *            breakdown with this metric. - &#x60;start&#x60; is the number of times playback was started. -
      *            &#x60;end&#x60; is the number of times playback has ended with the content watch until the end. -
      *            &#x60;impression&#x60; is the number of times your content has been loaded and was ready for playback.
-     *            (required)
+     *            - &#x60;ccv-peak&#x60; is the highest number of concurrent viewers in the timeframe of your request. -
+     *            &#x60;ccv-average&#x60; is the average number of concurrent viewers in the timeframe of your request.
+     *            - &#x60;view&#x60; is the total number of viewers until this point in time. (required)
      * @param breakdown
      *            Use this path parameter to define a dimension for segmenting analytics data. You must use
      *            &#x60;kebab-case&#x60; for path parameters. These are the available dimensions: -
@@ -1190,7 +1301,9 @@ public class AnalyticsApi {
      *            the operating system used by the viewers. Response values can include &#x60;windows&#x60;, &#x60;mac
      *            osx&#x60;, &#x60;android&#x60;, &#x60;ios&#x60;, &#x60;linux&#x60;. - &#x60;browser&#x60;: Returns
      *            analytics based on the browser used by the viewers. Response values can include &#x60;chrome&#x60;,
-     *            &#x60;firefox&#x60;, &#x60;edge&#x60;, &#x60;opera&#x60;. (required)
+     *            &#x60;firefox&#x60;, &#x60;edge&#x60;, &#x60;opera&#x60;. - &#x60;referrer&#x60;: Returns the URL
+     *            where the view originates from, for example a website where the video is embedded. View events from
+     *            Android and iOS return empty strings as the value for &#x60;referrer&#x60;. (required)
      * 
      * @return APIgetMetricsBreakdownRequest
      * 
@@ -1248,8 +1361,8 @@ public class AnalyticsApi {
     }
 
     private okhttp3.Call getMetricsOverTimeCall(String metric, OffsetDateTime from, OffsetDateTime to, String interval,
-            String sortBy, String sortOrder, FilterBy2 filterBy, Integer currentPage, Integer pageSize,
-            final ApiCallback _callback) throws ApiException {
+            String sortBy, String sortOrder, Boolean unique, String viewDuration, FilterBy2 filterBy,
+            Integer currentPage, Integer pageSize, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -1282,6 +1395,14 @@ public class AnalyticsApi {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("sortOrder", sortOrder));
         }
 
+        if (unique != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("unique", unique));
+        }
+
+        if (viewDuration != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("viewDuration", viewDuration));
+        }
+
         if (filterBy != null) {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("filterBy", filterBy));
         }
@@ -1312,34 +1433,35 @@ public class AnalyticsApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call getMetricsOverTimeValidateBeforeCall(String metric, OffsetDateTime from, OffsetDateTime to,
-            String interval, String sortBy, String sortOrder, FilterBy2 filterBy, Integer currentPage, Integer pageSize,
-            final ApiCallback _callback) throws ApiException {
+            String interval, String sortBy, String sortOrder, Boolean unique, String viewDuration, FilterBy2 filterBy,
+            Integer currentPage, Integer pageSize, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'metric' is set
         if (metric == null) {
             throw new ApiException("Missing the required parameter 'metric' when calling getMetricsOverTime");
         }
 
-        okhttp3.Call localVarCall = getMetricsOverTimeCall(metric, from, to, interval, sortBy, sortOrder, filterBy,
-                currentPage, pageSize, _callback);
+        okhttp3.Call localVarCall = getMetricsOverTimeCall(metric, from, to, interval, sortBy, sortOrder, unique,
+                viewDuration, filterBy, currentPage, pageSize, _callback);
         return localVarCall;
     }
 
     private ApiResponse<AnalyticsMetricsOverTimeResponse> getMetricsOverTimeWithHttpInfo(String metric,
-            OffsetDateTime from, OffsetDateTime to, String interval, String sortBy, String sortOrder,
-            FilterBy2 filterBy, Integer currentPage, Integer pageSize) throws ApiException {
+            OffsetDateTime from, OffsetDateTime to, String interval, String sortBy, String sortOrder, Boolean unique,
+            String viewDuration, FilterBy2 filterBy, Integer currentPage, Integer pageSize) throws ApiException {
         okhttp3.Call localVarCall = getMetricsOverTimeValidateBeforeCall(metric, from, to, interval, sortBy, sortOrder,
-                filterBy, currentPage, pageSize, null);
+                unique, viewDuration, filterBy, currentPage, pageSize, null);
         Type localVarReturnType = new TypeToken<AnalyticsMetricsOverTimeResponse>() {
         }.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     private okhttp3.Call getMetricsOverTimeAsync(String metric, OffsetDateTime from, OffsetDateTime to, String interval,
-            String sortBy, String sortOrder, FilterBy2 filterBy, Integer currentPage, Integer pageSize,
-            final ApiCallback<AnalyticsMetricsOverTimeResponse> _callback) throws ApiException {
+            String sortBy, String sortOrder, Boolean unique, String viewDuration, FilterBy2 filterBy,
+            Integer currentPage, Integer pageSize, final ApiCallback<AnalyticsMetricsOverTimeResponse> _callback)
+            throws ApiException {
         okhttp3.Call localVarCall = getMetricsOverTimeValidateBeforeCall(metric, from, to, interval, sortBy, sortOrder,
-                filterBy, currentPage, pageSize, _callback);
+                unique, viewDuration, filterBy, currentPage, pageSize, _callback);
         Type localVarReturnType = new TypeToken<AnalyticsMetricsOverTimeResponse>() {
         }.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
@@ -1353,6 +1475,8 @@ public class AnalyticsApi {
         private String interval;
         private String sortBy;
         private String sortOrder;
+        private Boolean unique;
+        private String viewDuration;
         private FilterBy2 filterBy;
         private Integer currentPage;
         private Integer pageSize;
@@ -1397,12 +1521,13 @@ public class AnalyticsApi {
          * Set interval
          * 
          * @param interval
-         *            Use this query parameter to define how granularity of the data. Possible values: &#x60;hour&#x60;,
-         *            &#x60;day&#x60;. - Default: If no interval specified and the period (different between from and
-         *            to) ≤ 2 days then hour, otherwise day. - If you do not set a value for &#x60;interval&#x60;, and
-         *            the period you set using the &#x60;from&#x60; and &#x60;to&#x60; parameters is less than or equals
-         *            to 2 days, then the default assigned value is &#x60;hour&#x60;. Otherwise the API sets it to
-         *            &#x60;day&#x60;. (optional)
+         *            Use this query parameter to define the granularity of the data. Possible values:
+         *            &#x60;minute&#x60;, &#x60;hour&#x60;, &#x60;day&#x60;. - If you do not set a value for
+         *            &#x60;interval&#x60;, and the period you set using the &#x60;from&#x60; and &#x60;to&#x60;
+         *            parameters is less than or equals to 2 days, then the default assigned value is &#x60;hour&#x60;.
+         *            Otherwise the API sets it to &#x60;day&#x60;. - When you set &#x60;minute&#x60; as interval, the
+         *            timeframe you define with the &#x60;from&#x60; and &#x60;to&#x60; parameters must be less than 60
+         *            minutes. (optional)
          * 
          * @return APIgetMetricsOverTimeRequest
          */
@@ -1444,6 +1569,42 @@ public class AnalyticsApi {
         }
 
         /**
+         * Set unique
+         * 
+         * @param unique
+         *            Use this query parameter to control how viewer data is counted: - &#x60;true&#x60; means that a
+         *            single user watching multiple times counts as 1 unique viewer - &#x60;false&#x60; means that all
+         *            views count, even if from the same user. The API accepts this parameter only when you use the
+         *            &#x60;ccv-peak&#x60;, &#x60;ccv-average&#x60;, or &#x60;view&#x60; metric. Viewers are unique for
+         *            1 day. The API determines uniqueness based on a viewer&#39;s &#x60;user-agent&#x60; and IP
+         *            address. This means that the API can filter viewers using multiple tabs to watch the same video
+         *            multiple times, but cannot filter for viewers who use multiple browsers to watch the same content
+         *            multiple times. (optional)
+         * 
+         * @return APIgetMetricsOverTimeRequest
+         */
+        public APIgetMetricsOverTimeRequest unique(Boolean unique) {
+            this.unique = unique;
+            return this;
+        }
+
+        /**
+         * Set viewDuration
+         * 
+         * @param viewDuration
+         *            Use this query parameter to define how many seconds a view has to last to be counted in analytics
+         *            data. - You can only use this parameter together with the &#x60;view&#x60; metric. - The accepted
+         *            values are &#x60;3s&#x60;, &#x60;5s&#x60;, &#x60;10s&#x60;, and &#x60;30s&#x60;. - If you do not
+         *            set this parameter, the API defaults to &#x60;5s&#x60;. (optional)
+         * 
+         * @return APIgetMetricsOverTimeRequest
+         */
+        public APIgetMetricsOverTimeRequest viewDuration(String viewDuration) {
+            this.viewDuration = viewDuration;
+            return this;
+        }
+
+        /**
          * Set filterBy
          * 
          * @param filterBy
@@ -1471,7 +1632,9 @@ public class AnalyticsApi {
          *            based on the browser used by the viewers. Response values can include &#x60;chrome&#x60;,
          *            &#x60;firefox&#x60;, &#x60;edge&#x60;, &#x60;opera&#x60;. - &#x60;tag&#x60;: Returns analytics for
          *            videos using this tag. This filter only accepts a single value and is case sensitive. Read more
-         *            about tagging your videos [here](https://docs.api.video/vod/tags-metadata). (optional)
+         *            about tagging your videos [here](https://docs.api.video/vod/tags-metadata). -
+         *            &#x60;referrer&#x60;: Filters data based on the URL where the view is originating from. Accepts an
+         *            empty string as a value to filter view events where no referrer is available. (optional)
          * 
          * @return APIgetMetricsOverTimeRequest
          */
@@ -1567,8 +1730,8 @@ public class AnalyticsApi {
          *                        </table>
          */
         public okhttp3.Call buildCall(final ApiCallback _callback) throws ApiException {
-            return getMetricsOverTimeCall(metric, from, to, interval, sortBy, sortOrder, filterBy, currentPage,
-                    pageSize, _callback);
+            return getMetricsOverTimeCall(metric, from, to, interval, sortBy, sortOrder, unique, viewDuration, filterBy,
+                    currentPage, pageSize, _callback);
         }
 
         /**
@@ -1630,7 +1793,7 @@ public class AnalyticsApi {
          */
         public Page<AnalyticsMetricsOverTimeResponseData> execute() throws ApiException {
             ApiResponse<AnalyticsMetricsOverTimeResponse> localVarResp = getMetricsOverTimeWithHttpInfo(metric, from,
-                    to, interval, sortBy, sortOrder, filterBy, currentPage, pageSize);
+                    to, interval, sortBy, sortOrder, unique, viewDuration, filterBy, currentPage, pageSize);
             return new Page<>(localVarResp.getData().getData(), localVarResp.getData().getPagination(), () -> {
                 try {
                     return copy().currentPage((currentPage == null ? 1 : currentPage) + 1).execute();
@@ -1647,6 +1810,8 @@ public class AnalyticsApi {
             copy.interval(interval);
             copy.sortBy(sortBy);
             copy.sortOrder(sortOrder);
+            copy.unique(unique);
+            copy.viewDuration(viewDuration);
             copy.filterBy(filterBy);
             copy.currentPage(currentPage);
             copy.pageSize(pageSize);
@@ -1711,8 +1876,8 @@ public class AnalyticsApi {
          *                        </table>
          */
         public ApiResponse<AnalyticsMetricsOverTimeResponse> executeWithHttpInfo() throws ApiException {
-            return getMetricsOverTimeWithHttpInfo(metric, from, to, interval, sortBy, sortOrder, filterBy, currentPage,
-                    pageSize);
+            return getMetricsOverTimeWithHttpInfo(metric, from, to, interval, sortBy, sortOrder, unique, viewDuration,
+                    filterBy, currentPage, pageSize);
         }
 
         /**
@@ -1806,8 +1971,8 @@ public class AnalyticsApi {
                     _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
-            return getMetricsOverTimeAsync(metric, from, to, interval, sortBy, sortOrder, filterBy, currentPage,
-                    pageSize, apiCallback);
+            return getMetricsOverTimeAsync(metric, from, to, interval, sortBy, sortOrder, unique, viewDuration,
+                    filterBy, currentPage, pageSize, apiCallback);
         }
     }
 
@@ -1822,7 +1987,10 @@ public class AnalyticsApi {
      *            number of plays your content receives divided by its impressions. - &#x60;start&#x60; is the number of
      *            times playback was started. - &#x60;end&#x60; is the number of times playback has ended with the
      *            content watch until the end. - &#x60;impression&#x60; is the number of times your content has been
-     *            loaded and was ready for playback. (required)
+     *            loaded and was ready for playback. - &#x60;ccv-peak&#x60; is the highest number of concurrent viewers
+     *            in the timeframe of your request. - &#x60;ccv-average&#x60; is the average number of concurrent
+     *            viewers in the timeframe of your request. - &#x60;view&#x60; is the total number of viewers.
+     *            (required)
      * 
      * @return APIgetMetricsOverTimeRequest
      * 

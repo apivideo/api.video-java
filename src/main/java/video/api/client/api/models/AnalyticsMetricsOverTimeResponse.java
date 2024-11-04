@@ -78,11 +78,11 @@ public class AnalyticsMetricsOverTimeResponse implements Serializable, DeepObjec
     }
 
     /**
-     * Returns an array of metrics and the timestamps .
+     * Returns an array of metrics and the timestamps.
      * 
      * @return data
      **/
-    @ApiModelProperty(required = true, value = "Returns an array of metrics and the timestamps .")
+    @ApiModelProperty(required = true, value = "Returns an array of metrics and the timestamps.")
 
     public List<AnalyticsMetricsOverTimeResponseData> getData() {
         return data;

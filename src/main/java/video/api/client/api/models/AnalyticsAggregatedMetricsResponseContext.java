@@ -32,7 +32,7 @@ public class AnalyticsAggregatedMetricsResponseContext implements Serializable, 
     private static final long serialVersionUID = 1L;
 
     /**
-     * Returns the metric you selected.
+     * Returns the metric and relevant parameters you selected.
      */
     @JsonAdapter(MetricEnum.Adapter.class)
     public enum MetricEnum {
@@ -46,7 +46,29 @@ public class AnalyticsAggregatedMetricsResponseContext implements Serializable, 
 
         IMPRESSION_TIME("impression-time"),
 
-        WATCH_TIME("watch-time");
+        WATCH_TIME("watch-time"),
+
+        CCV("ccv"),
+
+        UNIQUE_CCV("unique-ccv"),
+
+        VIEW_3("view-3"),
+
+        VIEW_5("view-5"),
+
+        VIEW_10("view-10"),
+
+        VIEW_30("view-30"),
+
+        UNIQUE_VIEW("unique-view"),
+
+        UNIQUE_VIEW_3("unique-view-3"),
+
+        UNIQUE_VIEW_5("unique-view-5"),
+
+        UNIQUE_VIEW_10("unique-view-10"),
+
+        UNIQUE_VIEW_30("unique-view-30");
 
         private String value;
 
@@ -157,12 +179,12 @@ public class AnalyticsAggregatedMetricsResponseContext implements Serializable, 
     }
 
     /**
-     * Returns the metric you selected.
+     * Returns the metric and relevant parameters you selected.
      * 
      * @return metric
      **/
     @javax.annotation.Nullable
-    @ApiModelProperty(example = "impression", value = "Returns the metric you selected.")
+    @ApiModelProperty(example = "impression", value = "Returns the metric and relevant parameters you selected.")
 
     public MetricEnum getMetric() {
         return metric;

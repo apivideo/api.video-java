@@ -1339,7 +1339,7 @@ paths:
       x-client-paginated: true
       x-accepts: application/json
     post:
-      description: Generate a title, abstract, and key takeaways for a video.
+      description: Generate an abstract and key takeaways for a video.
       operationId: POST_summaries
       requestBody:
         content:
@@ -1427,7 +1427,7 @@ paths:
       - Summaries
       x-client-action: create
       x-client-description:
-        default: Generate a title, abstract, and key takeaways for a video.
+        default: Generate an abstract and key takeaways for a video.
       x-contentType: application/json
       x-accepts: application/json
   /summaries/{summaryId}:
@@ -1563,8 +1563,7 @@ paths:
         default: Get all details for a summary.
       x-accepts: application/json
     patch:
-      description: Update details for a summary. Note that this operation is only
-        allowed for summary objects where `sourceStatus` is `missing`.
+      description: Update details for a summary.
       operationId: PATCH_summaries-summaryId-source
       parameters:
       - description: The unique identifier of the summary source you want to update.
@@ -1614,7 +1613,7 @@ paths:
           content:
             application/json:
               examples:
-                Summary already exists:
+                Summary generation still in progress:
                   value:
                     type: https://docs.api.video/reference/summary-already-exists
                     title: A summary already exists or is being created on this video.
@@ -1650,8 +1649,7 @@ paths:
       - Summaries
       x-client-action: update
       x-client-description:
-        default: Update details for a summary. Note that this operation is only allowed
-          for summary objects where `sourceStatus` is `missing`.
+        default: Update details for a summary.
       x-contentType: application/json
       x-accepts: application/json
   /videos/{videoId}/source:
@@ -16648,6 +16646,10 @@ components:
         playerId: pl45KFKdlddgk654dspkze
         language: en
         transcript: true
+        transcriptSummary: true
+        transcriptSummaryAttributes:
+        - abstract
+        - takeaways
         tags:
         - maths
         - string theory
@@ -16776,6 +16778,16 @@ components:
             - The default value is `false`.
             - If you define a video language using the `language` parameter, the API uses that language to summarize the video. If you do not define a language, the API detects it based on the video.
           type: boolean
+        transcriptSummaryAttributes:
+          description: Use this parameter to define the elements of a summary that
+            you want to generate. If you do not define this parameter, the API generates
+            a full summary with all attributes.
+          items:
+            enum:
+            - abstract
+            - takeaways
+            type: string
+          type: array
       required:
       - title
       title: VideoCreationPayload
@@ -16797,15 +16809,21 @@ components:
           - auto
           example: auto
           type: string
+        attributes:
+          description: Use this parameter to define the elements of a summary that
+            you want to generate. If you do not define this parameter, the API generates
+            a full summary with all attributes.
+          items:
+            enum:
+            - abstract
+            - takeaways
+            type: string
+          type: array
       required:
       - videoId
       type: object
     summary-update-payload:
       properties:
-        title:
-          description: A video title, based on the contents of the video.
-          example: A short lecture on quantum theory
-          type: string
         abstract:
           description: A short outline of the contents of the video.
           example: In this lecture, we discuss how complicated quantum theory is,
@@ -16850,12 +16868,7 @@ components:
         abstract: In this lecture, we discuss how complicated quantum theory is, using
           the famous example of Schrödingers cat. We also discuss practical applications
           like quantum computing.
-        title: A short lecture on quantum theory
       properties:
-        title:
-          description: A video title, based on the contents of the video.
-          example: A short lecture on quantum theory
-          type: string
         abstract:
           description: A short outline of the contents of the video. The length of
             an `abstract` depends on the amount of content in a video that can be
@@ -17028,6 +17041,9 @@ components:
         language: en
         transcript: true
         transcriptSummary: true
+        transcriptSummaryAttributes:
+        - abstract
+        - takeaways
         panoramic: false
         mp4Support: true
         tags:
@@ -17140,6 +17156,16 @@ components:
             \ video. If you do not define a language, the API detects it based on\
             \ the video."
           type: boolean
+        transcriptSummaryAttributes:
+          description: Use this parameter to define the elements of a summary that
+            you want to generate. If you do not define this parameter, the API generates
+            a full summary with all attributes.
+          items:
+            enum:
+            - abstract
+            - takeaways
+            type: string
+          type: array
       title: VideoUpdatePayload
       type: object
     discarded-video-update-payload:

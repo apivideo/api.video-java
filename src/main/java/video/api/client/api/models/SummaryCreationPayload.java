@@ -21,6 +21,8 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.io.Serializable;
 
 /**
@@ -86,6 +88,57 @@ public class SummaryCreationPayload implements Serializable, DeepObject {
     @SerializedName(SERIALIZED_NAME_ORIGIN)
     private OriginEnum origin;
 
+    /**
+     * Gets or Sets attributes
+     */
+    @JsonAdapter(AttributesEnum.Adapter.class)
+    public enum AttributesEnum {
+        ABSTRACT("abstract"),
+
+        TAKEAWAYS("takeaways");
+
+        private String value;
+
+        AttributesEnum(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
+
+        public static AttributesEnum fromValue(String value) {
+            for (AttributesEnum b : AttributesEnum.values()) {
+                if (b.value.equals(value)) {
+                    return b;
+                }
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        }
+
+        public static class Adapter extends TypeAdapter<AttributesEnum> {
+            @Override
+            public void write(final JsonWriter jsonWriter, final AttributesEnum enumeration) throws IOException {
+                jsonWriter.value(enumeration.getValue());
+            }
+
+            @Override
+            public AttributesEnum read(final JsonReader jsonReader) throws IOException {
+                String value = jsonReader.nextString();
+                return AttributesEnum.fromValue(value);
+            }
+        }
+    }
+
+    public static final String SERIALIZED_NAME_ATTRIBUTES = "attributes";
+    @SerializedName(SERIALIZED_NAME_ATTRIBUTES)
+    private List<AttributesEnum> attributes = null;
+
     public SummaryCreationPayload videoId(String videoId) {
         this.videoId = videoId;
         return this;
@@ -130,6 +183,36 @@ public class SummaryCreationPayload implements Serializable, DeepObject {
         this.origin = origin;
     }
 
+    public SummaryCreationPayload attributes(List<AttributesEnum> attributes) {
+        this.attributes = attributes;
+        return this;
+    }
+
+    public SummaryCreationPayload addAttributesItem(AttributesEnum attributesItem) {
+        if (this.attributes == null) {
+            this.attributes = new ArrayList<>();
+        }
+        this.attributes.add(attributesItem);
+        return this;
+    }
+
+    /**
+     * Use this parameter to define the elements of a summary that you want to generate. If you do not define this
+     * parameter, the API generates a full summary with all attributes.
+     * 
+     * @return attributes
+     **/
+    @javax.annotation.Nullable
+    @ApiModelProperty(value = "Use this parameter to define the elements of a summary that you want to generate. If you do not define this parameter, the API generates a full summary with all attributes.")
+
+    public List<AttributesEnum> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(List<AttributesEnum> attributes) {
+        this.attributes = attributes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -140,12 +223,13 @@ public class SummaryCreationPayload implements Serializable, DeepObject {
         }
         SummaryCreationPayload summaryCreationPayload = (SummaryCreationPayload) o;
         return Objects.equals(this.videoId, summaryCreationPayload.videoId)
-                && Objects.equals(this.origin, summaryCreationPayload.origin);
+                && Objects.equals(this.origin, summaryCreationPayload.origin)
+                && Objects.equals(this.attributes, summaryCreationPayload.attributes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(videoId, origin);
+        return Objects.hash(videoId, origin, attributes);
     }
 
     @Override
@@ -154,6 +238,7 @@ public class SummaryCreationPayload implements Serializable, DeepObject {
         sb.append("class SummaryCreationPayload {\n");
         sb.append("    videoId: ").append(toIndentedString(videoId)).append("\n");
         sb.append("    origin: ").append(toIndentedString(origin)).append("\n");
+        sb.append("    attributes: ").append(toIndentedString(attributes)).append("\n");
         sb.append("}");
         return sb.toString();
     }

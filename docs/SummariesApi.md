@@ -19,7 +19,7 @@ Method | HTTP request | Description
 
 Generate video summary
 
-Generate a title, abstract, and key takeaways for a video.
+Generate an abstract and key takeaways for a video.
 
 ### Example
 ```java
@@ -45,6 +45,7 @@ public class Example {
 If you do not set this parameter, **the API will not generate a summary automatically**.
 
 In this case, &#x60;sourceStatus&#x60; will return &#x60;missing&#x60;, and you have to manually add a summary using the &#x60;PATCH /summaries/{summaryId}/source&#x60; endpoint operation.
+    summaryCreationPayload.setAttributes(); // Use this parameter to define the elements of a summary that you want to generate. If you do not define this parameter, the API generates a full summary with all attributes.
 
 
     try {
@@ -95,7 +96,7 @@ Name | Type | Description  | Notes
 
 Update summary details
 
-Update details for a summary. Note that this operation is only allowed for summary objects where `sourceStatus` is `missing`.
+Update details for a summary.
 
 ### Example
 ```java
@@ -116,7 +117,6 @@ public class Example {
     
     String summaryId = "summary_1CGHWuXjhxmeH4WiZ51234"; // The unique identifier of the summary source you want to update.
     SummaryUpdatePayload summaryUpdatePayload = new SummaryUpdatePayload(); // 
-    summaryUpdatePayload.setTitle("A short lecture on quantum theory"); // A video title, based on the contents of the video.
     summaryUpdatePayload.setAbstract("In this lecture, we discuss how complicated quantum theory is, using the famous example of Schrödingers cat. We also discuss practical applications like quantum computing."); // A short outline of the contents of the video.
     summaryUpdatePayload.setTakeaways(Arrays.asList("Quantum theory is complicated.","Schrödinger's cat is neither dead, nor alive.","Quantum computers are super cool.")); // A list of 3 key points from the video, in chronological order.
 

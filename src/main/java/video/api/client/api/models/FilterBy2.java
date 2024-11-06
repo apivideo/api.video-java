@@ -21,6 +21,7 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
@@ -167,6 +168,10 @@ public class FilterBy2 implements Serializable, DeepObject {
     public static final String SERIALIZED_NAME_TAG = "tag";
     @SerializedName(SERIALIZED_NAME_TAG)
     private String tag;
+
+    public static final String SERIALIZED_NAME_REFERRER = "referrer";
+    @SerializedName(SERIALIZED_NAME_REFERRER)
+    private List<URI> referrer = null;
 
     public FilterBy2 mediaId(List<String> mediaId) {
         this.mediaId = mediaId;
@@ -393,6 +398,37 @@ public class FilterBy2 implements Serializable, DeepObject {
         this.tag = tag;
     }
 
+    public FilterBy2 referrer(List<URI> referrer) {
+        this.referrer = referrer;
+        return this;
+    }
+
+    public FilterBy2 addReferrerItem(URI referrerItem) {
+        if (this.referrer == null) {
+            this.referrer = new ArrayList<>();
+        }
+        this.referrer.add(referrerItem);
+        return this;
+    }
+
+    /**
+     * Filters data based on the URL where the view is originating from. This filter parameter accepts an empty string
+     * to filter view events where no referrer is available. - The API filters for exact matches. Include the trailing
+     * &#x60;/&#x60; characters if needed. - The URLs you add must be URL encoded.
+     * 
+     * @return referrer
+     **/
+    @javax.annotation.Nullable
+    @ApiModelProperty(example = "[\"https%3A%2F%2Fmy-awesome-videos.com\"]", value = "Filters data based on the URL where the view is originating from. This filter parameter accepts an empty string to filter view events where no referrer is available.  - The API filters for exact matches. Include the trailing `/` characters if needed. - The URLs you add must be URL encoded.")
+
+    public List<URI> getReferrer() {
+        return referrer;
+    }
+
+    public void setReferrer(List<URI> referrer) {
+        this.referrer = referrer;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -407,12 +443,14 @@ public class FilterBy2 implements Serializable, DeepObject {
                 && Objects.equals(this.country, filterBy2.country)
                 && Objects.equals(this.deviceType, filterBy2.deviceType)
                 && Objects.equals(this.operatingSystem, filterBy2.operatingSystem)
-                && Objects.equals(this.browser, filterBy2.browser) && Objects.equals(this.tag, filterBy2.tag);
+                && Objects.equals(this.browser, filterBy2.browser) && Objects.equals(this.tag, filterBy2.tag)
+                && Objects.equals(this.referrer, filterBy2.referrer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mediaId, mediaType, continent, country, deviceType, operatingSystem, browser, tag);
+        return Objects.hash(mediaId, mediaType, continent, country, deviceType, operatingSystem, browser, tag,
+                referrer);
     }
 
     @Override
@@ -427,6 +465,7 @@ public class FilterBy2 implements Serializable, DeepObject {
         sb.append("    operatingSystem: ").append(toIndentedString(operatingSystem)).append("\n");
         sb.append("    browser: ").append(toIndentedString(browser)).append("\n");
         sb.append("    tag: ").append(toIndentedString(tag)).append("\n");
+        sb.append("    referrer: ").append(toIndentedString(referrer)).append("\n");
         sb.append("}");
         return sb.toString();
     }

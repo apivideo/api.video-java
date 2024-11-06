@@ -32,7 +32,7 @@ public class AnalyticsMetricsOverTimeResponseContext implements Serializable, De
     private static final long serialVersionUID = 1L;
 
     /**
-     * Returns the metric you selected.
+     * Returns the metric and relevant parameters you selected.
      */
     @JsonAdapter(MetricEnum.Adapter.class)
     public enum MetricEnum {
@@ -44,7 +44,33 @@ public class AnalyticsMetricsOverTimeResponseContext implements Serializable, De
 
         END("end"),
 
-        IMPRESSION("impression");
+        IMPRESSION("impression"),
+
+        CCV_AVERAGE("ccv-average"),
+
+        CCV_PEAK("ccv-peak"),
+
+        UNIQUE_CCV_AVERAGE("unique-ccv-average"),
+
+        UNIQUE_CCV_PEAK("unique-ccv-peak"),
+
+        VIEW_3("view-3"),
+
+        VIEW_5("view-5"),
+
+        VIEW_10("view-10"),
+
+        VIEW_30("view-30"),
+
+        UNIQUE_VIEW("unique-view"),
+
+        UNIQUE_VIEW_3("unique-view-3"),
+
+        UNIQUE_VIEW_5("unique-view-5"),
+
+        UNIQUE_VIEW_10("unique-view-10"),
+
+        UNIQUE_VIEW_30("unique-view-30");
 
         private String value;
 
@@ -93,6 +119,8 @@ public class AnalyticsMetricsOverTimeResponseContext implements Serializable, De
      */
     @JsonAdapter(IntervalEnum.Adapter.class)
     public enum IntervalEnum {
+        MINUTE("minute"),
+
         HOUR("hour"),
 
         DAY("day");
@@ -149,12 +177,12 @@ public class AnalyticsMetricsOverTimeResponseContext implements Serializable, De
     }
 
     /**
-     * Returns the metric you selected.
+     * Returns the metric and relevant parameters you selected.
      * 
      * @return metric
      **/
     @javax.annotation.Nullable
-    @ApiModelProperty(example = "impression", value = "Returns the metric you selected.")
+    @ApiModelProperty(example = "impression", value = "Returns the metric and relevant parameters you selected.")
 
     public MetricEnum getMetric() {
         return metric;

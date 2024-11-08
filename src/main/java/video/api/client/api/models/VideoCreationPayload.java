@@ -599,12 +599,13 @@ public class VideoCreationPayload implements Serializable, DeepObject {
 
     /**
      * Use this parameter to define the elements of a summary that you want to generate. If you do not define this
-     * parameter, the API generates a full summary with all attributes.
+     * parameter, the API generates a full summary with all attributes. The possible values are &#x60;abstract&#x60; and
+     * &#x60;takeaways&#x60;.
      * 
      * @return transcriptSummaryAttributes
      **/
     @javax.annotation.Nullable
-    @ApiModelProperty(value = "Use this parameter to define the elements of a summary that you want to generate. If you do not define this parameter, the API generates a full summary with all attributes.")
+    @ApiModelProperty(value = "Use this parameter to define the elements of a summary that you want to generate. If you do not define this parameter, the API generates a full summary with all attributes. The possible values are `abstract` and `takeaways`.")
 
     public List<TranscriptSummaryAttributesEnum> getTranscriptSummaryAttributes() {
         return transcriptSummaryAttributes;

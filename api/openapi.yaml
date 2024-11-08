@@ -16781,7 +16781,8 @@ components:
         transcriptSummaryAttributes:
           description: Use this parameter to define the elements of a summary that
             you want to generate. If you do not define this parameter, the API generates
-            a full summary with all attributes.
+            a full summary with all attributes. The possible values are `abstract`
+            and `takeaways`.
           items:
             enum:
             - abstract
@@ -16812,7 +16813,8 @@ components:
         attributes:
           description: Use this parameter to define the elements of a summary that
             you want to generate. If you do not define this parameter, the API generates
-            a full summary with all attributes.
+            a full summary with all attributes. The possible values are `abstract`
+            and `takeaways`.
           items:
             enum:
             - abstract
@@ -17159,7 +17161,8 @@ components:
         transcriptSummaryAttributes:
           description: Use this parameter to define the elements of a summary that
             you want to generate. If you do not define this parameter, the API generates
-            a full summary with all attributes.
+            a full summary with all attributes. The possible values are `abstract`
+            and `takeaways`.
           items:
             enum:
             - abstract

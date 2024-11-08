@@ -189,7 +189,7 @@ public class SummariesApi {
     /**
      * Generate video summary
      *
-     * Generate a title, abstract, and key takeaways for a video.
+     * Generate an abstract and key takeaways for a video.
      * 
      * @param summaryCreationPayload
      *            (required)
@@ -236,7 +236,7 @@ public class SummariesApi {
     /**
      * Generate video summary
      *
-     * Generate a title, abstract, and key takeaways for a video.
+     * Generate an abstract and key takeaways for a video.
      * 
      * @param summaryCreationPayload
      *            (required)
@@ -283,7 +283,7 @@ public class SummariesApi {
     }
 
     /**
-     * Generate video summary (asynchronously) Generate a title, abstract, and key takeaways for a video.
+     * Generate video summary (asynchronously) Generate an abstract and key takeaways for a video.
      * 
      * @param summaryCreationPayload
      *            (required)
@@ -426,8 +426,7 @@ public class SummariesApi {
     /**
      * Update summary details
      *
-     * Update details for a summary. Note that this operation is only allowed for summary objects where
-     * &#x60;sourceStatus&#x60; is &#x60;missing&#x60;.
+     * Update details for a summary.
      * 
      * @param summaryId
      *            The unique identifier of the summary source you want to update. (required)
@@ -476,8 +475,7 @@ public class SummariesApi {
     /**
      * Update summary details
      *
-     * Update details for a summary. Note that this operation is only allowed for summary objects where
-     * &#x60;sourceStatus&#x60; is &#x60;missing&#x60;.
+     * Update details for a summary.
      * 
      * @param summaryId
      *            The unique identifier of the summary source you want to update. (required)
@@ -527,8 +525,7 @@ public class SummariesApi {
     }
 
     /**
-     * Update summary details (asynchronously) Update details for a summary. Note that this operation is only allowed
-     * for summary objects where &#x60;sourceStatus&#x60; is &#x60;missing&#x60;.
+     * Update summary details (asynchronously) Update details for a summary.
      * 
      * @param summaryId
      *            The unique identifier of the summary source you want to update. (required)

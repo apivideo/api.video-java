@@ -205,6 +205,58 @@ public class VideoCreationPayload implements Serializable, DeepObject {
     @SerializedName(SERIALIZED_NAME_TRANSCRIPT_SUMMARY)
     private Boolean transcriptSummary;
 
+    /**
+     * Gets or Sets transcriptSummaryAttributes
+     */
+    @JsonAdapter(TranscriptSummaryAttributesEnum.Adapter.class)
+    public enum TranscriptSummaryAttributesEnum {
+        ABSTRACT("abstract"),
+
+        TAKEAWAYS("takeaways");
+
+        private String value;
+
+        TranscriptSummaryAttributesEnum(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
+
+        public static TranscriptSummaryAttributesEnum fromValue(String value) {
+            for (TranscriptSummaryAttributesEnum b : TranscriptSummaryAttributesEnum.values()) {
+                if (b.value.equals(value)) {
+                    return b;
+                }
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        }
+
+        public static class Adapter extends TypeAdapter<TranscriptSummaryAttributesEnum> {
+            @Override
+            public void write(final JsonWriter jsonWriter, final TranscriptSummaryAttributesEnum enumeration)
+                    throws IOException {
+                jsonWriter.value(enumeration.getValue());
+            }
+
+            @Override
+            public TranscriptSummaryAttributesEnum read(final JsonReader jsonReader) throws IOException {
+                String value = jsonReader.nextString();
+                return TranscriptSummaryAttributesEnum.fromValue(value);
+            }
+        }
+    }
+
+    public static final String SERIALIZED_NAME_TRANSCRIPT_SUMMARY_ATTRIBUTES = "transcriptSummaryAttributes";
+    @SerializedName(SERIALIZED_NAME_TRANSCRIPT_SUMMARY_ATTRIBUTES)
+    private List<TranscriptSummaryAttributesEnum> transcriptSummaryAttributes = null;
+
     public VideoCreationPayload title(String title) {
         this.title = title;
         return this;
@@ -530,6 +582,38 @@ public class VideoCreationPayload implements Serializable, DeepObject {
         this.transcriptSummary = transcriptSummary;
     }
 
+    public VideoCreationPayload transcriptSummaryAttributes(
+            List<TranscriptSummaryAttributesEnum> transcriptSummaryAttributes) {
+        this.transcriptSummaryAttributes = transcriptSummaryAttributes;
+        return this;
+    }
+
+    public VideoCreationPayload addTranscriptSummaryAttributesItem(
+            TranscriptSummaryAttributesEnum transcriptSummaryAttributesItem) {
+        if (this.transcriptSummaryAttributes == null) {
+            this.transcriptSummaryAttributes = new ArrayList<>();
+        }
+        this.transcriptSummaryAttributes.add(transcriptSummaryAttributesItem);
+        return this;
+    }
+
+    /**
+     * Use this parameter to define the elements of a summary that you want to generate. If you do not define this
+     * parameter, the API generates a full summary with all attributes.
+     * 
+     * @return transcriptSummaryAttributes
+     **/
+    @javax.annotation.Nullable
+    @ApiModelProperty(value = "Use this parameter to define the elements of a summary that you want to generate. If you do not define this parameter, the API generates a full summary with all attributes.")
+
+    public List<TranscriptSummaryAttributesEnum> getTranscriptSummaryAttributes() {
+        return transcriptSummaryAttributes;
+    }
+
+    public void setTranscriptSummaryAttributes(List<TranscriptSummaryAttributesEnum> transcriptSummaryAttributes) {
+        this.transcriptSummaryAttributes = transcriptSummaryAttributes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -552,13 +636,14 @@ public class VideoCreationPayload implements Serializable, DeepObject {
                 && Objects.equals(this.watermark, videoCreationPayload.watermark)
                 && Objects.equals(this.language, videoCreationPayload.language)
                 && Objects.equals(this.transcript, videoCreationPayload.transcript)
-                && Objects.equals(this.transcriptSummary, videoCreationPayload.transcriptSummary);
+                && Objects.equals(this.transcriptSummary, videoCreationPayload.transcriptSummary)
+                && Objects.equals(this.transcriptSummaryAttributes, videoCreationPayload.transcriptSummaryAttributes);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(title, description, source, _public, panoramic, mp4Support, playerId, tags, metadata, clip,
-                watermark, language, transcript, transcriptSummary);
+                watermark, language, transcript, transcriptSummary, transcriptSummaryAttributes);
     }
 
     @Override
@@ -579,6 +664,8 @@ public class VideoCreationPayload implements Serializable, DeepObject {
         sb.append("    language: ").append(toIndentedString(language)).append("\n");
         sb.append("    transcript: ").append(toIndentedString(transcript)).append("\n");
         sb.append("    transcriptSummary: ").append(toIndentedString(transcriptSummary)).append("\n");
+        sb.append("    transcriptSummaryAttributes: ").append(toIndentedString(transcriptSummaryAttributes))
+                .append("\n");
         sb.append("}");
         return sb.toString();
     }

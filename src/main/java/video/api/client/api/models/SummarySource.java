@@ -32,10 +32,6 @@ import java.io.Serializable;
 public class SummarySource implements Serializable, DeepObject {
     private static final long serialVersionUID = 1L;
 
-    public static final String SERIALIZED_NAME_TITLE = "title";
-    @SerializedName(SERIALIZED_NAME_TITLE)
-    private String title;
-
     public static final String SERIALIZED_NAME_ABSTRACT = "abstract";
     @SerializedName(SERIALIZED_NAME_ABSTRACT)
     private String _abstract;
@@ -43,27 +39,6 @@ public class SummarySource implements Serializable, DeepObject {
     public static final String SERIALIZED_NAME_TAKEAWAYS = "takeaways";
     @SerializedName(SERIALIZED_NAME_TAKEAWAYS)
     private List<String> takeaways = null;
-
-    public SummarySource title(String title) {
-        this.title = title;
-        return this;
-    }
-
-    /**
-     * A video title, based on the contents of the video.
-     * 
-     * @return title
-     **/
-    @javax.annotation.Nullable
-    @ApiModelProperty(example = "A short lecture on quantum theory", value = "A video title, based on the contents of the video.")
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public SummarySource _abstract(String _abstract) {
         this._abstract = _abstract;
@@ -125,21 +100,19 @@ public class SummarySource implements Serializable, DeepObject {
             return false;
         }
         SummarySource summarySource = (SummarySource) o;
-        return Objects.equals(this.title, summarySource.title)
-                && Objects.equals(this._abstract, summarySource._abstract)
+        return Objects.equals(this._abstract, summarySource._abstract)
                 && Objects.equals(this.takeaways, summarySource.takeaways);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, _abstract, takeaways);
+        return Objects.hash(_abstract, takeaways);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("class SummarySource {\n");
-        sb.append("    title: ").append(toIndentedString(title)).append("\n");
         sb.append("    _abstract: ").append(toIndentedString(_abstract)).append("\n");
         sb.append("    takeaways: ").append(toIndentedString(takeaways)).append("\n");
         sb.append("}");

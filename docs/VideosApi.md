@@ -72,7 +72,7 @@ public class Example {
 - When &#x60;true&#x60;, the API generates a summary for the video, based on the transcription.
 - The default value is &#x60;false&#x60;.
 - If you define a video language using the &#x60;language&#x60; parameter, the API uses that language to summarize the video. If you do not define a language, the API detects it based on the video.
-    videoCreationPayload.setTranscriptSummaryAttributes(); // Use this parameter to define the elements of a summary that you want to generate. If you do not define this parameter, the API generates a full summary with all attributes.
+    videoCreationPayload.setTranscriptSummaryAttributes(); // Use this parameter to define the elements of a summary that you want to generate. If you do not define this parameter, the API generates a full summary with all attributes. The possible values are &#x60;abstract&#x60; and &#x60;takeaways&#x60;.
 
 
     try {
@@ -459,7 +459,7 @@ public class Example {
 - When &#x60;true&#x60;, the API generates a summary for the video, based on the transcription.
 - The default value is &#x60;false&#x60;.
 - If you define a video language using the &#x60;language&#x60; parameter, the API uses that language to summarize the video. If you do not define a language, the API detects it based on the video.
-    videoUpdatePayload.setTranscriptSummaryAttributes(); // Use this parameter to define the elements of a summary that you want to generate. If you do not define this parameter, the API generates a full summary with all attributes.
+    videoUpdatePayload.setTranscriptSummaryAttributes(); // Use this parameter to define the elements of a summary that you want to generate. If you do not define this parameter, the API generates a full summary with all attributes. The possible values are &#x60;abstract&#x60; and &#x60;takeaways&#x60;.
 
 
     try {

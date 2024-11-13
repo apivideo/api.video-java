@@ -41,9 +41,64 @@ public class Webhook implements Serializable, DeepObject {
     @SerializedName(SERIALIZED_NAME_CREATED_AT)
     private OffsetDateTime createdAt;
 
+    /**
+     * Gets or Sets events
+     */
+    @JsonAdapter(EventsEnum.Adapter.class)
+    public enum EventsEnum {
+        LIVE_STREAM_BROADCAST_STARTED("live-stream.broadcast.started"),
+
+        LIVE_STREAM_BROADCAST_ENDED("live-stream.broadcast.ended"),
+
+        VIDEO_SOURCE_RECORDED("video.source.recorded"),
+
+        VIDEO_ENCODING_QUALITY_COMPLETED("video.encoding.quality.completed"),
+
+        VIDEO_CAPTION_GENERATED("video.caption.generated"),
+
+        VIDEO_SUMMARY_GENERATED("video.summary.generated");
+
+        private String value;
+
+        EventsEnum(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
+
+        public static EventsEnum fromValue(String value) {
+            for (EventsEnum b : EventsEnum.values()) {
+                if (b.value.equals(value)) {
+                    return b;
+                }
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        }
+
+        public static class Adapter extends TypeAdapter<EventsEnum> {
+            @Override
+            public void write(final JsonWriter jsonWriter, final EventsEnum enumeration) throws IOException {
+                jsonWriter.value(enumeration.getValue());
+            }
+
+            @Override
+            public EventsEnum read(final JsonReader jsonReader) throws IOException {
+                String value = jsonReader.nextString();
+                return EventsEnum.fromValue(value);
+            }
+        }
+    }
+
     public static final String SERIALIZED_NAME_EVENTS = "events";
     @SerializedName(SERIALIZED_NAME_EVENTS)
-    private List<String> events = null;
+    private List<EventsEnum> events = null;
 
     public static final String SERIALIZED_NAME_URL = "url";
     @SerializedName(SERIALIZED_NAME_URL)
@@ -95,12 +150,12 @@ public class Webhook implements Serializable, DeepObject {
         this.createdAt = createdAt;
     }
 
-    public Webhook events(List<String> events) {
+    public Webhook events(List<EventsEnum> events) {
         this.events = events;
         return this;
     }
 
-    public Webhook addEventsItem(String eventsItem) {
+    public Webhook addEventsItem(EventsEnum eventsItem) {
         if (this.events == null) {
             this.events = new ArrayList<>();
         }
@@ -117,11 +172,11 @@ public class Webhook implements Serializable, DeepObject {
     @javax.annotation.Nullable
     @ApiModelProperty(example = "[\"video.encoding.quality.completed\"]", value = "A list of events that you subscribed to. When these events occur, the API triggers a webhook call to the URL you provided.")
 
-    public List<String> getEvents() {
+    public List<EventsEnum> getEvents() {
         return events;
     }
 
-    public void setEvents(List<String> events) {
+    public void setEvents(List<EventsEnum> events) {
         this.events = events;
     }
 

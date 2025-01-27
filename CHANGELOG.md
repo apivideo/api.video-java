@@ -1,6 +1,9 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.4.8] - 2025-01-27
+- Add subtitle attribute in video creation payload
+
 ## [1.4.7] - 2024-11-06
 - AI summary updates
 

@@ -39,6 +39,10 @@ public class VideoCreationPayload implements Serializable, DeepObject {
     @SerializedName(SERIALIZED_NAME_TITLE)
     private String title;
 
+    public static final String SERIALIZED_NAME_SUBTITLE = "subtitle";
+    @SerializedName(SERIALIZED_NAME_SUBTITLE)
+    private String subtitle;
+
     public static final String SERIALIZED_NAME_DESCRIPTION = "description";
     @SerializedName(SERIALIZED_NAME_DESCRIPTION)
     private String description;
@@ -275,6 +279,27 @@ public class VideoCreationPayload implements Serializable, DeepObject {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public VideoCreationPayload subtitle(String subtitle) {
+        this.subtitle = subtitle;
+        return this;
+    }
+
+    /**
+     * A subtitle for your video.
+     * 
+     * @return subtitle
+     **/
+    @javax.annotation.Nullable
+    @ApiModelProperty(example = "A great subtitle.", value = "A subtitle for your video.")
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
     }
 
     public VideoCreationPayload description(String description) {
@@ -625,6 +650,7 @@ public class VideoCreationPayload implements Serializable, DeepObject {
         }
         VideoCreationPayload videoCreationPayload = (VideoCreationPayload) o;
         return Objects.equals(this.title, videoCreationPayload.title)
+                && Objects.equals(this.subtitle, videoCreationPayload.subtitle)
                 && Objects.equals(this.description, videoCreationPayload.description)
                 && Objects.equals(this.source, videoCreationPayload.source)
                 && Objects.equals(this._public, videoCreationPayload._public)
@@ -643,8 +669,8 @@ public class VideoCreationPayload implements Serializable, DeepObject {
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, description, source, _public, panoramic, mp4Support, playerId, tags, metadata, clip,
-                watermark, language, transcript, transcriptSummary, transcriptSummaryAttributes);
+        return Objects.hash(title, subtitle, description, source, _public, panoramic, mp4Support, playerId, tags,
+                metadata, clip, watermark, language, transcript, transcriptSummary, transcriptSummaryAttributes);
     }
 
     @Override
@@ -652,6 +678,7 @@ public class VideoCreationPayload implements Serializable, DeepObject {
         StringBuilder sb = new StringBuilder();
         sb.append("class VideoCreationPayload {\n");
         sb.append("    title: ").append(toIndentedString(title)).append("\n");
+        sb.append("    subtitle: ").append(toIndentedString(subtitle)).append("\n");
         sb.append("    description: ").append(toIndentedString(description)).append("\n");
         sb.append("    source: ").append(toIndentedString(source)).append("\n");
         sb.append("    _public: ").append(toIndentedString(_public)).append("\n");

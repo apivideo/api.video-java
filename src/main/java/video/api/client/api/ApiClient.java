@@ -120,7 +120,7 @@ public class ApiClient {
     private void init() {
         verifyingSsl = true;
         json = new JSON();
-        addDefaultHeader("AV-Origin-Client", "java:1.4.7");
+        addDefaultHeader("AV-Origin-Client", "java:1.4.8");
     }
 
     private boolean isValid(String regex, String field) {

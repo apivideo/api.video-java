@@ -48,6 +48,7 @@ public class Example {
     
     VideoCreationPayload videoCreationPayload = new VideoCreationPayload(); // video to create
     videoCreationPayload.setTitle("Maths video"); // The title of your new video.
+    videoCreationPayload.setSubtitle("This is a great subtitle."); // A subtitle of your video.
     videoCreationPayload.setDescription("A video about string theory."); // A brief description of your video.
     videoCreationPayload.setSource("https://www.myvideo.url.com/video.mp4 OR vi4k0jvEUuaTdRAEjQ4JfOyl"); // You can either add a video already on the web, by entering the URL of the video, or you can also enter the &#x60;videoId&#x60; of one of the videos you already have on your api.video acccount, and this will generate a copy of your video. Creating a copy of a video can be especially useful if you want to keep your original video and trim or apply a watermark onto the copy you would create.
     videoCreationPayload.setPublic(true); // Default: True. If set to &#x60;false&#x60; the video will become private. More information on private videos can be found [here](https://docs.api.video/delivery/video-privacy-access-management)
